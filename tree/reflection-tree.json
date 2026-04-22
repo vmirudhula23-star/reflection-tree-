@@ -1,0 +1,75 @@
+{
+  "nodes": [
+    { "id": "START", "type": "start", "text": "Good evening. Let's reflect on your day.", "next": "A1_OPEN" },
+
+    { "id": "A1_OPEN", "type": "question", "text": "How did today leave you feeling?", "options": ["Drained", "Okay", "Satisfied", "Frustrated"], "next": "A1_D1" },
+
+    { "id": "A1_D1", "type": "decision",
+      "rules": [
+        { "if": { "A1_OPEN": ["Drained", "Frustrated"] }, "goTo": "A1_Q_LOW" },
+        { "if": { "A1_OPEN": ["Okay", "Satisfied"] }, "goTo": "A1_Q_HIGH" }
+      ]
+    },
+
+    { "id": "A1_Q_LOW", "type": "question", "text": "When something went wrong, what did you do?", "options": ["Blamed cause", "Felt stuck", "Controlled what I could", "Pushed through"], "next": "A1_D2_LOW" },
+
+    { "id": "A1_Q_HIGH", "type": "question", "text": "When things went well, why?", "options": ["Prepared", "Team helped", "Lucky", "Adapted"], "next": "A1_D2_HIGH" },
+
+    { "id": "A1_D2_LOW", "type": "decision",
+      "rules": [
+        { "if": { "A1_Q_LOW": ["Controlled what I could"] }, "goTo": "A1_R_INT" },
+        { "if": { "A1_Q_LOW": ["Blamed cause", "Felt stuck", "Pushed through"] }, "goTo": "A1_R_EXT" }
+      ]
+    },
+
+    { "id": "A1_D2_HIGH", "type": "decision",
+      "rules": [
+        { "if": { "A1_Q_HIGH": ["Prepared", "Adapted"] }, "goTo": "A1_R_INT" },
+        { "if": { "A1_Q_HIGH": ["Team helped", "Lucky"] }, "goTo": "A1_R_EXT" }
+      ]
+    },
+
+    { "id": "A1_R_INT", "type": "reflection", "text": "You showed control in your actions today.", "next": "BRIDGE_1_2" },
+    { "id": "A1_R_EXT", "type": "reflection", "text": "Today felt influenced by external factors, but you still made choices.", "next": "BRIDGE_1_2" },
+
+    { "id": "BRIDGE_1_2", "type": "bridge", "text": "Now let's look at what you gave today.", "next": "A2_OPEN" },
+
+    { "id": "A2_OPEN", "type": "question", "text": "How was your interaction?", "options": ["Helped someone", "Did my work", "Felt unrecognized", "Went beyond"], "next": "A2_D1" },
+
+    { "id": "A2_D1", "type": "decision",
+      "rules": [
+        { "if": { "A2_OPEN": ["Helped someone", "Went beyond"] }, "goTo": "A2_Q_CONTRIB" },
+        { "if": { "A2_OPEN": ["Did my work", "Felt unrecognized"] }, "goTo": "A2_Q_ENTITLE" }
+      ]
+    },
+
+    { "id": "A2_Q_CONTRIB", "type": "question", "text": "Why did you contribute?", "options": ["Wanted to", "Responsible", "Asked", "Natural"], "next": "A2_R_CONTRIB" },
+
+    { "id": "A2_Q_ENTITLE", "type": "question", "text": "What stood out?", "options": ["No recognition", "Others weak", "Effort unseen", "Focused on self"], "next": "A2_R_ENTITLE" },
+
+    { "id": "A2_R_CONTRIB", "type": "reflection", "text": "You contributed beyond expectation.", "next": "BRIDGE_2_3" },
+    { "id": "A2_R_ENTITLE", "type": "reflection", "text": "Your focus was on what you received.", "next": "BRIDGE_2_3" },
+
+    { "id": "BRIDGE_2_3", "type": "bridge", "text": "Now let's zoom out to who was impacted.", "next": "A3_OPEN" },
+
+    { "id": "A3_OPEN", "type": "question", "text": "Who comes to mind?", "options": ["Just me", "One person", "Team", "Customer"], "next": "A3_D1" },
+
+    { "id": "A3_D1", "type": "decision",
+      "rules": [
+        { "if": { "A3_OPEN": ["Just me"] }, "goTo": "A3_Q_SELF" },
+        { "if": { "A3_OPEN": ["One person", "Team", "Customer"] }, "goTo": "A3_Q_OTHERS" }
+      ]
+    },
+
+    { "id": "A3_Q_SELF", "type": "question", "text": "Anyone else affected?", "options": ["Maybe", "No", "Yes", "Team"], "next": "A3_R_SELF" },
+
+    { "id": "A3_Q_OTHERS", "type": "question", "text": "What impact?", "options": ["Progress", "Reduced burden", "Better outcome", "Not sure"], "next": "A3_R_OTHERS" },
+
+    { "id": "A3_R_SELF", "type": "reflection", "text": "Your focus was inward today.", "next": "SUMMARY" },
+    { "id": "A3_R_OTHERS", "type": "reflection", "text": "You considered a wider impact.", "next": "SUMMARY" },
+
+    { "id": "SUMMARY", "type": "summary", "text": "Today you felt {A1_OPEN}, acted via {A2_OPEN}, and focused on {A3_OPEN}.", "next": "END" },
+
+    { "id": "END", "type": "end", "text": "See you tomorrow." }
+  ]
+}
